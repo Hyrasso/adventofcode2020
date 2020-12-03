@@ -6,7 +6,8 @@ function get_data(data)
     return l
 end
 
-""" Call f with splatted argument  
+"""
+Call f with splatted argument.
 
     splat(f)(t) -> f(t...)
 """
