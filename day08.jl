@@ -1,20 +1,14 @@
 function get_program(data)
-    # f = open("inputs/08-abs.txt", "w")
     program = []
     for (i, line) in enumerate(data)
         ins, arg = split(line, " ")
         ins, arg = Symbol(ins), parse(Int, arg)
-        if ins in (:jmp, :nop)
-            arg += i
-        end
-        # println(f, ins, " ", arg)
         push!(program, (ins, arg))
     end
-    # close(f)
     program
 end
 
-function solve(program, visited=nothing)
+function solve(program; visited=nothing)
     i = 1
     if visited === nothing
         visited = []
@@ -24,7 +18,7 @@ function solve(program, visited=nothing)
     while true
         ins, arg = program[i]
         if ins == :jmp
-            i = arg - 1
+            i += arg - 1
         elseif ins == :acc
             acc += arg
         elseif ins == :nop
@@ -45,7 +39,7 @@ function solve2(program)
     # list all jmp and nops encountered,
     # try to replace them until no loop is encountered
     visited = []
-    solve(program, visited)
+    solve(program, visited=visited)
     change = Dict()
     for idx in visited
         ins, arg = program[idx]
